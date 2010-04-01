@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
+     "casual.gemspec",
      "lib/casual.rb",
      "test/helper.rb",
      "test/test_casual.rb"
@@ -42,9 +43,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
     else
+      s.add_dependency(%q<nokogiri>, [">= 0"])
     end
   else
+    s.add_dependency(%q<nokogiri>, [">= 0"])
   end
 end
 
