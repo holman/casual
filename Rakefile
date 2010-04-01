@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "casual"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "A tiny CAS client for Ruby"
+    gem.description = "A tiny CAS client for Ruby"
     gem.email = "github.com@zachholman.com"
     gem.homepage = "http://github.com/holman/casual"
     gem.authors = ["Zach Holman"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_dependency 'nokogiri'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
