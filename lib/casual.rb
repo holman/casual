@@ -1,10 +1,10 @@
 require 'net/https'
-require 'nokogiri'
+require 'hpricot'
 
 module Casual
   class Client
     attr_accessor :server_path, :callback_url, :port
-    
+
     def initialize(config)
       @server_path = config[:server_path]
       @callback_url = config[:callback_url]
@@ -21,10 +21,10 @@ module Casual
       status,response = connection.post('/login', params)#.last
       (status.code == '200') ? username : nil
     end
-    
+
     def acquire_ticket
       login_page = connection.get('/login')
-      Nokogiri::HTML(login_page.body).css('input#lt').first['value']
+      Hpricot(login_page.body).search('input[@id=lt]').first['value']
     end
 
     def connection
@@ -32,19 +32,19 @@ module Casual
       http.use_ssl = true
       http
     end
-    
+
     def authenticate_ticket(ticket)
       connection.get("/serviceValidate?service=#{callback_url}&ticket=#{ticket}").body
     end
-    
+
     def user_login(ticket)
-      user = Nokogiri::XML(authenticate_ticket(ticket)).xpath('//cas:authenticationSuccess //cas:user').text
+      user = Hpricot::XML(authenticate_ticket(ticket)).search('//cas:authenticationSuccess //cas:user').text
       user.strip != '' ? user : nil
     end
-    
+
     def server_url
       "https://#{server_path}:#{port}"
     end
-    
+
   end
 end
